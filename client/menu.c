@@ -2543,7 +2543,7 @@ void StartServer_MenuInit( void )
 	else
 	{
 #ifdef _WIN32
-		length = filelength( fileno( fp  ) );
+		length = _filelength( _fileno( fp  ) );
 #else
 		fseek(fp, 0, SEEK_END);
 		length = ftell(fp);
@@ -3577,6 +3577,8 @@ static qboolean PlayerConfig_ScanDirectories( void )
 	}
 	if ( dirnames )
 		FreeFileList( dirnames, ndirs );
+
+	return true;
 }
 
 static int pmicmpfnc( const void *_a, const void *_b )

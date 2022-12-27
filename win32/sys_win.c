@@ -205,9 +205,9 @@ Sys_Init
 */
 void Sys_Init (void)
 {
+#if 0
 	OSVERSIONINFO	vinfo;
 
-#if 0
 	// allocate a named semaphore on the client so the
 	// front end can tell if it is alive
 
@@ -229,6 +229,7 @@ void Sys_Init (void)
 
 	timeBeginPeriod( 1 );
 
+#if 0
 	vinfo.dwOSVersionInfoSize = sizeof(vinfo);
 
 	if (!GetVersionEx (&vinfo))
@@ -240,6 +241,9 @@ void Sys_Init (void)
 		Sys_Error ("Quake2 doesn't run on Win32s");
 	else if ( vinfo.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS )
 		s_win95 = true;
+#endif
+
+	s_win95 = false;
 
 	if (dedicated->value)
 	{

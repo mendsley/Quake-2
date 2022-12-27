@@ -49,7 +49,7 @@ static qboolean VerifyDriver( void )
 	char buffer[1024];
 
 	strcpy( buffer, qglGetString( GL_RENDERER ) );
-	strlwr( buffer );
+	_strlwr( buffer );
 	if ( strcmp( buffer, "gdi generic" ) == 0 )
 		if ( !glw_state.mcd_accelerated )
 			return false;
@@ -354,17 +354,18 @@ qboolean GLimp_Init( void *hinstance, void *wndproc )
 
 	glw_state.allowdisplaydepthchange = false;
 
+#if 0
 	if ( GetVersionEx( &vinfo) )
 	{
 		if ( vinfo.dwMajorVersion > 4 )
 		{
-			glw_state.allowdisplaydepthchange = true;
+			
 		}
 		else if ( vinfo.dwMajorVersion == 4 )
 		{
 			if ( vinfo.dwPlatformId == VER_PLATFORM_WIN32_NT )
 			{
-				glw_state.allowdisplaydepthchange = true;
+				
 			}
 			else if ( vinfo.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS )
 			{
@@ -380,6 +381,9 @@ qboolean GLimp_Init( void *hinstance, void *wndproc )
 		ri.Con_Printf( PRINT_ALL, "GLimp_Init() - GetVersionEx failed\n" );
 		return false;
 	}
+#else
+	glw_state.allowdisplaydepthchange = true;
+#endif
 
 	glw_state.hInstance = ( HINSTANCE ) hinstance;
 	glw_state.wndproc = wndproc;
@@ -591,7 +595,7 @@ void GLimp_EndFrame (void)
 	err = qglGetError();
 	assert( err == GL_NO_ERROR );
 
-	if ( stricmp( gl_drawbuffer->string, "GL_BACK" ) == 0 )
+	if ( strcasecmp( gl_drawbuffer->string, "GL_BACK" ) == 0 )
 	{
 		if ( !qwglSwapBuffers( glw_state.hDC ) )
 			ri.Sys_Error( ERR_FATAL, "GLimp_EndFrame() - SwapBuffers() failed!\n" );
